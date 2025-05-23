@@ -1,0 +1,141 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle, #ffe4e1, #ff69b4);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 4em;
+      margin-top: 20vh;
+      animation: fadeInUp 3s ease-out forwards;
+    }
+
+    p {
+      font-size: 1.5em;
+      animation: fadeIn 5s ease-in-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .content {
+      z-index: 10;
+      position: relative;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .btn {
+      background: #fff;
+      color: #ff1493;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti"></canvas>
+
+  <div class="content">
+    <h1>🎉 Happy Birthday Simran Habli! 🎂</h1>
+    <p>Wishing you love, laughter, and cake! 🍰</p>
+    <button class="btn" onclick="document.getElementById('music').play()">▶️ Play Birthday Song</button>
+    <audio id="music" src="https://www.fesliyanstudios.com/play-mp3/387" autoplay></audio>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createParticles() {
+      for (let i = 0; i < 250; i++) {
+        particles.push({
+          x: random(0, canvas.width),
+          y: random(-canvas.height, 0),
+          r: random(2, 6),
+          color: `hsl(${random(0, 360)}, 100%, 50%)`,
+          speed: random(1, 4),
+          angle: random(-1, 1)
+        });
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+
+        p.y += p.speed;
+        p.x += p.angle;
+
+        if (p.y > canvas.height) {
+          p.y = -10;
+          p.x = random(0, canvas.width);
+        }
+      });
+
+      requestAnimationFrame(drawParticles);
+    }
+
+    createParticles();
+    drawParticles();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
